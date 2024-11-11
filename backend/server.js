@@ -30,11 +30,11 @@ app.get('/books', async (req, res) => {
 
 // API Endpoint untuk menambahkan buku
 app.post('/books', async (req, res) => {
-    const { judul, pengarang } = req.body;
+    const { judul, pengarang, penerbit, tahun_terbit } = req.body;
     try {
         const result = await pool.query(
-            'INSERT INTO Buku (judul, pengarang, status_ketersediaan) VALUES ($1, $2, TRUE) RETURNING *',
-            [judul, pengarang]
+            'INSERT INTO Buku (judul, pengarang, penerbit, tahun_terbit, status_ketersediaan) VALUES ($1, $2, $3, $4, TRUE) RETURNING *',
+            [judul, pengarang, penerbit, tahun_terbit]
         );
         res.json(result.rows[0]);
     } catch (err) {
@@ -64,5 +64,6 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+
 
 

@@ -12,7 +12,7 @@ function fetchBooks() {
         .then(data => {
             let content = "<h2>Daftar Buku</h2><ul>";
             data.forEach(book => {
-                content += `<li>${book.judul} - ${book.pengarang} <button onclick="deleteBook(${book.id_buku})">Hapus</button></li>`;
+                content += `<li>${book.judul} - ${book.pengarang} - ${book.penerbit} (${book.tahun_terbit}) <button onclick="deleteBook(${book.id_buku})">Hapus</button></li>`;
             });
             content += "</ul>";
             document.getElementById("main-content").innerHTML = content;
@@ -26,8 +26,16 @@ function showAddBookForm() {
         <form id="add-book-form">
             <label for="judul">Judul:</label><br>
             <input type="text" id="judul" name="judul"><br><br>
+            
             <label for="pengarang">Pengarang:</label><br>
             <input type="text" id="pengarang" name="pengarang"><br><br>
+            
+            <label for="penerbit">Penerbit:</label><br>
+            <input type="text" id="penerbit" name="penerbit"><br><br>
+            
+            <label for="tahun_terbit">Tahun Terbit:</label><br>
+            <input type="number" id="tahun_terbit" name="tahun_terbit"><br><br>
+            
             <button type="submit">Tambah Buku</button>
         </form>
     `;
@@ -42,7 +50,9 @@ function showAddBookForm() {
 function addBook() {
     const judul = document.getElementById("judul").value;
     const pengarang = document.getElementById("pengarang").value;
-    
+    const penerbit = document.getElementById("penerbit").value;
+    const tahun_terbit = document.getElementById("tahun_terbit").value;
+
     fetch('http://localhost:3000/books', {
         method: 'POST',
         headers: {
@@ -51,6 +61,8 @@ function addBook() {
         body: JSON.stringify({
             judul: judul,
             pengarang: pengarang,
+            penerbit: penerbit,
+            tahun_terbit: tahun_terbit
         })
     }).then(response => response.json())
       .then(data => {
@@ -70,3 +82,4 @@ function deleteBook(id) {
       })
       .catch(error => console.error('Error deleting book:', error));
 }
+
